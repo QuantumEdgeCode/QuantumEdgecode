@@ -72,5 +72,13 @@ Here are some ideas to get you started:
 <code><img height="20" alt="electron" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/electron/electron.png"></code>
 
 <!-- STATS_START -->
+Quantumedgecode  
+👁️ 关注者: 8  
 
+- 📦 总仓库数: 20  
+- ⭐ 星标总数: 6  
+- 🍴 复刻总数: 0  
+- 📝 总贡献数: 53  
+- 🐛 总问题数: 10  
+- ✅ 已关闭问题: 1
 <!-- STATS_END -->
