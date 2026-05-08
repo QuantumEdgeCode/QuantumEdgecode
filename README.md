@@ -1,23 +1,22 @@
-### Hi there 👋
-<!--
-- 🔑 GPG key hosted here at [GitHub](https://github.com/QuantumEdgecode.gpg)
-- 📫 Email me at: [open@aiepn.cn](mailto:open@aiepn.cn)
--->
-<!--
-**QuantumEdgeCode/QuantumEdgecode** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+<table>
+  <tr>
+    <td>
+      <img src="https://github-stats-alpha.vercel.app/api?username=QuantumEdgecode&cc=000&tc=fff&ic=fff&bc=000" alt="GitHub Stats" />
+    </td>
+    <td>
+<!-- STATS_START -->
+Quantumedgecode  
+👁️ 关注者: 8  
 
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
-![Stats](https://github-stats-alpha.vercel.app/api?username=QuantumEdgecode&cc=000&tc=fff&ic=fff&bc=000)
+- 📦 总仓库数: 20  
+- ⭐ 星标总数: 6  
+- 🍴 复刻总数: 0  
+- 📝 总贡献数: 53  
+- 🐛 总问题数: 10  
+- ✅ 已关闭问题: 1
+<!-- STATS_END -->
+  </tr>
+</table>
 
 ## 🛠️ 技术栈
 <code><img height="20" alt="python" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
@@ -70,15 +69,3 @@ Here are some ideas to get you started:
 <code><img height="20" alt="graphql" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/graphql/graphql.png"></code>
 <code><img height="20" alt="firebase" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/firebase/firebase.png"></code>
 <code><img height="20" alt="electron" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/electron/electron.png"></code>
-
-<!-- STATS_START -->
-Quantumedgecode  
-👁️ 关注者: 8  
-
-- 📦 总仓库数: 20  
-- ⭐ 星标总数: 6  
-- 🍴 复刻总数: 0  
-- 📝 总贡献数: 53  
-- 🐛 总问题数: 10  
-- ✅ 已关闭问题: 1
-<!-- STATS_END -->
