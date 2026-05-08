@@ -1,0 +1,62 @@
+name: 更新个人统计
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+
+    - name: 获取 GitHub 统计并更新 README
+      run: |
+        # 获取 GitHub 用户数据
+        USER_INFO=$(curl -s "https://api.github.com/users/QuantumEdgecode")
+        
+        # 解析统计数据
+        FOLLOWERS=$(echo "$USER_INFO" | jq -r '.followers')
+        PUBLIC_REPOS=$(echo "$USER_INFO" | jq -r '.public_repos')
+        
+        # 获取仓库详细信息统计
+        REPOS=$(curl -s "https://api.github.com/users/QuantumEdgecode/repos?per_page=100")
+        STARS=$(echo "$REPOS" | jq '[.[].stargazers_count] | add')
+        FORKS=$(echo "$REPOS" | jq '[.[].forks_count] | add')
+        TOTAL_ISSUES=$(echo "$REPOS" | jq '[.[].open_issues_count] | add')
+        
+        # 获取贡献数量（最近一年的提交事件数）
+        EVENTS=$(curl -s "https://api.github.com/users/QuantumEdgecode/events/public?per_page=100")
+        CONTRIBUTIONS=$(echo "$EVENTS" | jq '[.[] | select(.type == "PushEvent")] | length')
+        
+        # 获取已关闭的 Issues（通过搜索）
+        CLOSED_ISSUES_SEARCH=$(curl -s "https://api.github.com/search/issues?q=author:QuantumEdgecode+type:issue+state:closed")
+        CLOSED_ISSUES=$(echo "$CLOSED_ISSUES_SEARCH" | jq -r '.total_count')
+        
+        # 生成中文统计内容
+        STATS_CONTENT="Quantumedgecode  
+        👁️ 关注者: $FOLLOWERS  
+
+        - 📦 总仓库数: $PUBLIC_REPOS  
+        - ⭐ 星标总数: $STARS  
+        - 🍴 复刻总数: $FORKS  
+        - 📝 总贡献数: $CONTRIBUTIONS  
+        - 🐛 总问题数: $TOTAL_ISSUES  
+        - ✅ 已关闭问题: $CLOSED_ISSUES"
+
+        # 在 README.md 中更新或插入统计内容
+        if grep -q "<!-- STATS_START -->" README.md; then
+          # 替换现有统计内容
+          sed -i '/<!-- STATS_START -->/,/<!-- STATS_END -->/c\<!-- STATS_START -->\n```\n'"$STATS_CONTENT"'\n```\n<!-- STATS_END -->' README.md
+        else
+          # 添加新的统计部分
+          echo -e "\n<!-- STATS_START -->\n```\n$STATS_CONTENT\n```\n<!-- STATS_END -->" >> README.md
+        fi
+
+    - name: 提交更改
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "自动更新 GitHub 统计"
+        file_pattern: README.md
