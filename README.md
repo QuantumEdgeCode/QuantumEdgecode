@@ -13,7 +13,7 @@ Quantumedgecode
 - 🍴 复刻总数: 0  
 - 📝 总贡献数: 0  
 - 🐛 总问题数: 10  
-- ✅ 已关闭问题: null
+- ✅ 已关闭问题: 1
 <!-- STATS_END -->
   </tr>
 </table>
