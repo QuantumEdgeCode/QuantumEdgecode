@@ -13,26 +13,37 @@ jobs:
     steps:
     - name: 检出代码
       uses: actions/checkout@v4
-      
+
     - name: 获取 GitHub 统计并更新 README
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # 获取 GitHub 用户数据
         USER_INFO=$(curl -s "https://api.github.com/users/QuantumEdgecode")
-        
+
         # 解析统计数据
         FOLLOWERS=$(echo "$USER_INFO" | jq -r '.followers')
         PUBLIC_REPOS=$(echo "$USER_INFO" | jq -r '.public_repos')
-        
+
         # 获取仓库详细信息统计
         REPOS=$(curl -s "https://api.github.com/users/QuantumEdgecode/repos?per_page=100")
         STARS=$(echo "$REPOS" | jq '[.[].stargazers_count] | add')
         FORKS=$(echo "$REPOS" | jq '[.[].forks_count] | add')
+        # 复刻总数已按要求注释掉：如需恢复，把下一行的值改回 "- 🍴 复刻总数: $FORKS  "
+        FORKS_LINE=""
         TOTAL_ISSUES=$(echo "$REPOS" | jq '[.[].open_issues_count] | add')
-        
+
+        # 获取过去一年的 contributions 数量（示例：206）
+        CONTRIBUTIONS=$(curl -s -X POST "https://api.github.com/graphql" \
+          -H "Authorization: bearer $GITHUB_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d '{"query":"query { user(login: \"QuantumEdgecode\") { contributionsCollection { contributionCalendar { totalContributions } } } }"}' \
+          | jq -r '.data.user.contributionsCollection.contributionCalendar.totalContributions // "0"')
+
         # 获取已关闭的 Issues
         CLOSED_ISSUES_SEARCH=$(curl -s "https://api.github.com/search/issues?q=author:QuantumEdgecode+type:issue+state:closed")
         CLOSED_ISSUES=$(echo "$CLOSED_ISSUES_SEARCH" | jq -r '.total_count')
-        
+
         # 生成统计内容
         cat > stats.md << EOF
         Quantumedgecode  
@@ -40,12 +51,13 @@ jobs:
 
         - 📦 总仓库数: $PUBLIC_REPOS  
         - ⭐ 星标总数: $STARS  
-        - 🍴 复刻总数: $FORKS  
+        $FORKS_LINE
+        - 🌱 贡献数: $CONTRIBUTIONS  
         - 📝 总贡献数: $(curl -s "https://api.github.com/users/QuantumEdgecode/events/public?per_page=100" | jq '[.[] | select(.type == "PushEvent")] | length')  
         - 🐛 总问题数: $TOTAL_ISSUES  
         - ✅ 已关闭问题: $CLOSED_ISSUES
         EOF
-        
+
         # 检查 README.md 是否存在标记
         if grep -q "<!-- STATS_START -->" README.md; then
           echo "找到标记，正在更新统计..."
@@ -61,7 +73,7 @@ jobs:
           cat stats.md >> README.md
           echo "<!-- STATS_END -->" >> README.md
         fi
-        
+
         # 清理临时文件
         rm stats.md
 
